@@ -19,6 +19,7 @@ public class TrackzillaApplication {
 		
 	}
 
+	/* 
 	@Bean
 		public CommandLineRunner demo(ApplicationRepository repository ) {
 			return (args) -> {
@@ -32,5 +33,7 @@ public class TrackzillaApplication {
 			};
 
 		}
+
+		*/
 
 }
