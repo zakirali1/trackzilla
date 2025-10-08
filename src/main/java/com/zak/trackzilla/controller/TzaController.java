@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.zak.trackzilla.model.Ticket;
+import com.zak.trackzilla.respository.TicketRepository;
 import com.zak.trackzilla.service.ApplicationService;
 import com.zak.trackzilla.service.ReleaseService;
 import com.zak.trackzilla.service.TicketService;
@@ -15,6 +17,12 @@ public class TzaController {
     private ApplicationService applicationService;
     private TicketService ticketService;
     private ReleaseService releaseService;
+    private TicketRepository ticketRepository;
+
+    @Autowired
+    public TzaController(TicketRepository ticketRepository) {
+      this.ticketRepository = ticketRepository;
+    }
 
     @Autowired
     public void setApplicationService(ApplicationService applicationService) {
@@ -49,12 +57,25 @@ public class TzaController {
       model.addAttribute("tickets", ticketService.listTickets());
       return "tickets";
    }
+   @GetMapping("/tickets/new")
+   public String tickets_new(Model model) {
+      model.addAttribute("tickets", new Ticket());
+      return "new_tickets";
+   }
+      
+   @PostMapping("/tickets/add")
+    public String addTicket(@ModelAttribute Ticket ticket) {
+    ticketRepository.save(ticket);
+    return "redirect:/tickets";
+}
+
 
    @GetMapping("/releases")
    public String retrieveReleases(Model model) {
       model.addAttribute("releases", releaseService.listReleases());
       return "release";
    }
+
 
 
 }
